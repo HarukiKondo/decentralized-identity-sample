@@ -8,6 +8,7 @@ npm --version 10.2.4
 yarn --version 1.22.4
 aws --version aws-cli/2.13.8 Python/3.11.4 Windows/10 exe/AMD64 prompt/off
 cdk --version 2.148.1
+docker --version Docker version 25.0.3, build 4debf41
 ```
 
 docker も使える環境である必要あり。
@@ -26,6 +27,8 @@ docker も使える環境である必要あり。
   ```
 
   実行結果として`pkgs/utils/issuer.json`に鍵ペア情報が出力される。
+  
+  [作成したウォレットアドレス - 0x6E9efA2Ff9bFa1E07a173020721Ad214AA0e1F28](https://sepolia.etherscan.io/address/0x6E9efA2Ff9bFa1E07a173020721Ad214AA0e1F28)
 
 - フロントエンドをビルドする。
 

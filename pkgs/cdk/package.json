@@ -22,7 +22,8 @@
     "@types/prettier": "2.6.0",
     "aws-cdk": "^2.65.0",
     "ts-node": "^10.9.1",
-    "typescript": "~3.9.7"
+    "typescript": "~3.9.7",
+    "esbuild": "^0.23.0"
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "^2.56.0-alpha.0",
@@ -31,7 +32,6 @@
     "cdk-nag": "^2.21.86",
     "cdk-remote-stack": "^2.0.10",
     "constructs": "^10.0.0",
-    "esbuild": "^0.23.0",
     "source-map-support": "^0.5.21"
   }
 }

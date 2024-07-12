@@ -14,8 +14,8 @@
   "scripts": {
     "cdk": "yarn workspace cdk",
     "holderwebapp": "yarn workspace holderwebapp",
-    "issuerwebapp": "yarn workspace contract issuerwebapp",
-    "utils": "yarn workspace contract utils",
-    "verifierwebbapp": "yarn workspace contract verifierwebbapp"
+    "issuerwebapp": "yarn workspace issuerwebapp",
+    "utils": "yarn workspace utils",
+    "verifierwebapp": "yarn workspace verifierwebapp"
   }
 }

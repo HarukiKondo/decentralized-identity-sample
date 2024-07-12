@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "createWallet": "node createWallet.js",
+    "cert-verifier": "node cert-verifier.js"
   },
   "author": "",
   "license": "ISC",

@@ -33,6 +33,8 @@ address become wallet of blockchain. We need Gas for pay transaction fee when ss
   You can get gas fee of Goerli testnet at this faucet website.  
     https://goerlifaucet.com/
 
+  - 現在Goerliは動かないのでSepoliaのfaucetを取得する必要あり。
+
 ## CDKで使用するLambdaの依存パッケージを事前にインストールする/ Install dependency packages for CDK and Lambda
 ```
 $ cd cdk/lambda/nodejs

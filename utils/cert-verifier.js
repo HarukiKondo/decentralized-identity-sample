@@ -3,6 +3,9 @@ const {
 } = require("@blockcerts/cert-verifier-js/dist/verifier-node.js");
 var fs = require("fs");
 
+/**
+ * This code is a sample of how you can use the CertVerifier library to verify a certificate.
+ */
 fs.readFile(
   "../../cert-issuer/data/blockchain_certificates/verifiable-credential.json",
   "utf8",
@@ -24,6 +27,7 @@ fs.readFile(
 
     let certificate = new Certificate(data, options);
     await certificate.init();
+    // Verifiable Credentialを検証する。
     const verificationResult = await certificate.verify(
       ({ code, label, status, errorMessage }) => {
         console.log("Code:", code, label, " - Status:", status);

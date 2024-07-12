@@ -29,6 +29,9 @@ const remoteOutput = new RemoteOutputStack(app, "RemoteOutput", {
   webAcl,
 });
 
+/**
+ * IssuerProfileBucketスタック
+ */
 const issuerProfileBucketStack = new IssuerProfileBucketStack(
   app,
   "DIDIssuerProfileBucketStack",
@@ -39,6 +42,9 @@ const issuerProfileBucketStack = new IssuerProfileBucketStack(
 issuerProfileBucketStack.addDependency(webAcl);
 issuerProfileBucketStack.addDependency(remoteOutput);
 
+/**
+ * IssuerProfileDestributionスタック
+ */
 const issuerProfileDestributionStack = new IssuerProfileDestributionStack(
   app,
   "DIDIssuerProfileDestributionStack",
@@ -49,18 +55,27 @@ const issuerProfileDestributionStack = new IssuerProfileDestributionStack(
 );
 issuerProfileDestributionStack.addDependency(issuerProfileBucketStack);
 
+/**
+ * IssuerWebappスタック
+ */
 const issuerWebapp = new IssuerWebapp(app, "IssuerWebapp", {
   webAclArn: remoteOutput.webappWafArn,
 });
 issuerWebapp.addDependency(webAcl);
 issuerWebapp.addDependency(remoteOutput);
 
+/**
+ * HolderWebappスタック
+ */
 const holderWebapp = new HolderWebapp(app, "HolderWebapp", {
   webAclArn: remoteOutput.webappWafArn,
 });
 holderWebapp.addDependency(webAcl);
 holderWebapp.addDependency(remoteOutput);
 
+/**
+ * VerifierWebappスタック
+ */
 const verifierWebapp = new VerifierWebapp(app, "VerifierWebapp", {
   webAclArn: remoteOutput.webappWafArn,
 });

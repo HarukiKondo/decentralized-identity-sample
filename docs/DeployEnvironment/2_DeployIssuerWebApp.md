@@ -33,6 +33,9 @@ $ export SOURCE_IP_ADDRESS=xxx.xxx.xxx.xxx/32
 
 - Ethereum Nodeのエンドポイント  
 Endpoint of Ethereum Node  
+
+**Alchemy** か **Ankr** などでSepoliaのエンドポイントを用意する。
+
 ```
 $ export ETHEREUM_ENDPOINT=https://ETHEREUM_ENDPOINT
 ```

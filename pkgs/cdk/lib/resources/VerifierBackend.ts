@@ -88,6 +88,9 @@ export class VerifierBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
 
@@ -97,6 +100,9 @@ export class VerifierBackend extends Construct {
       environment: {
         ...defaultFuncEnvironments,
       },
+      bundling: {
+        forceDockerBundling: false,
+      },
     });
 
     const verifyVC = new lambdaNodejs.NodejsFunction(this, "VerifyVC", {
@@ -104,6 +110,9 @@ export class VerifierBackend extends Construct {
       entry: "./lambda/nodejs/VerifyVC.js",
       environment: {
         ...defaultFuncEnvironments,
+      },
+      bundling: {
+        forceDockerBundling: false,
       },
     });
 

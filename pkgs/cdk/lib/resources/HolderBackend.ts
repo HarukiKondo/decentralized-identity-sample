@@ -36,7 +36,7 @@ export class HolderBackend extends Construct {
       encryption: s3.BucketEncryption.S3_MANAGED,
       enforceSSL: true,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     new CfnOutput(this, "HolderVcBucketName", {
@@ -70,6 +70,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
     dynamodbStack.didKeypairTable.grantReadWriteData(generateIdentifier);
@@ -83,6 +86,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
     dynamodbStack.didKeypairTable.grantReadData(getIdentifier);
@@ -93,6 +99,9 @@ export class HolderBackend extends Construct {
       environment: {
         ...defaultFuncEnvironments,
       },
+      bundling: {
+        forceDockerBundling: false,
+      },
     });
     dynamodbStack.didKeypairTable.grantReadData(issueJWT);
 
@@ -101,6 +110,9 @@ export class HolderBackend extends Construct {
       entry: "./lambda/nodejs/VerifyJWT.js",
       environment: {
         ...defaultFuncEnvironments,
+      },
+      bundling: {
+        forceDockerBundling: false,
       },
     });
 
@@ -113,6 +125,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
 
@@ -121,6 +136,9 @@ export class HolderBackend extends Construct {
       entry: "./lambda/nodejs/GetDIDOwner.js",
       environment: {
         ...defaultFuncEnvironments,
+      },
+      bundling: {
+        forceDockerBundling: false,
       },
     });
     const changeDidOwner = new lambdaNodejs.NodejsFunction(
@@ -131,6 +149,9 @@ export class HolderBackend extends Construct {
         entry: "./lambda/nodejs/ChangeDIDOwner.js",
         environment: {
           ...defaultFuncEnvironments,
+        },
+        bundling: {
+          forceDockerBundling: false,
         },
       }
     );
@@ -145,6 +166,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
     dynamodbStack.didKeypairTable.grantReadData(addDlegateDid);
@@ -157,6 +181,9 @@ export class HolderBackend extends Construct {
         entry: "./lambda/nodejs/RevokeDelegate.js",
         environment: {
           ...defaultFuncEnvironments,
+        },
+        bundling: {
+          forceDockerBundling: false,
         },
       }
     );
@@ -171,6 +198,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
     dynamodbStack.didKeypairTable.grantReadData(addAttributeDid);
@@ -184,6 +214,9 @@ export class HolderBackend extends Construct {
         environment: {
           ...defaultFuncEnvironments,
         },
+        bundling: {
+          forceDockerBundling: false,
+        },
       }
     );
     dynamodbStack.didKeypairTable.grantReadData(revokeAttributeDid);
@@ -193,6 +226,9 @@ export class HolderBackend extends Construct {
       entry: "./lambda/nodejs/DownloadVC.js",
       environment: {
         ...defaultFuncEnvironments,
+      },
+      bundling: {
+        forceDockerBundling: false,
       },
     });
     dynamodbStack.jwtSessionTable.grantReadWriteData(downloadVC);

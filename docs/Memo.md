@@ -202,18 +202,10 @@ docker も使える環境である必要あり。
   mkdir -p layer1/python
   ```
   
-  ```bash
-  mkdir -p layer2/python
-  ```
-  
   以下のコマンドをそれぞれ実行してインストール
   
   ```bash
   pip install -r pkgs/cdk/lambda/python/Issue_vc/layer1.txt -t layer1/python
-  ```
-  
-  ```bash
-  pip install -r pkgs/cdk/lambda/python/Issue_vc/layer2.txt -t layer2/python
   ```
   
   インストールが完了したら、zip化する。
@@ -222,20 +214,12 @@ docker も使える環境である必要あり。
   cd layer1 && zip -r ../layer1.zip .
   ```
   
-  ```bash
-  cd layer2 && zip -r ../layer2.zip .
-  ```
-  
   以下のコマンドでLambdaレイヤーとしてアップロードする。
   
   ```bash
   aws lambda publish-layer-version --layer-name AWS-Parameters-and-Secrets-Lambda-Extension-layer-1 --zip-file fileb://layer1.zip
   ```
-  
-  ```bash
-  aws lambda publish-layer-version --layer-name AWS-Parameters-and-Secrets-Lambda-Extension-layer-2 --zip-file fileb://layer2.zip
-  ```
-  
+
 - `IssuerWebapp`スタックをデプロイする
 
   ```bash
@@ -374,8 +358,8 @@ docker も使える環境である必要あり。
   
 - デプロイしたフロントエンドにそれぞれアクセスしてVerifiable Credentialを発行・検証できるかテストする。
 
-    [HolderWebApp](https://d22827okd70ih7.cloudfront.net)
+  - [HolderWebApp](https://d22827okd70ih7.cloudfront.net)
     
-    [IssuerWebApp](https://d2tnmc3b2hc1ib.cloudfront.net)
+  - [IssuerWebApp](https://d2tnmc3b2hc1ib.cloudfront.net)
     
-    [VerifierWebApp](https://dxga6v0d5hbby.cloudfront.net)
+  - [VerifierWebApp](https://dxga6v0d5hbby.cloudfront.net)

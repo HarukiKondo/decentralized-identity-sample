@@ -55,6 +55,9 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * VCを取得するメソッド
+     */
     async GET_VC() {
       const identifier = this.did_url.split(":").slice(-1)[0]
 
@@ -106,7 +109,9 @@ export default defineComponent({
       }
       
     },
-    // VCをダウンロードする
+    /**
+     * VCをダウンロードするメソッド
+     */
     async download_vc() {
       const blob = new Blob([JSON.stringify(this.vc_json)], {
         type: "text/plain",

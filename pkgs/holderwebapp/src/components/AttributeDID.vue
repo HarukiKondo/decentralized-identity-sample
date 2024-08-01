@@ -78,7 +78,11 @@ export default defineComponent({
       attribute_info: "",
     };
   },
+  // メソッド類
   methods: {
+    /**
+     * 属性情報をセットするメソッド
+     */
     async setAttribute() {
       try {
         this.attribute_info = this.delegate_info = await API.post(
@@ -99,6 +103,9 @@ export default defineComponent({
         this.attribute_info = error;
       }
     },
+    /**
+     * 属性を取り除くメソッド
+     */
     async revokeAttribute() {
       try {
         this.attribute_info = this.delegate_info = await API.del(
@@ -118,13 +125,19 @@ export default defineComponent({
         this.attribute_info = error;
       }
     },
-
+    
+    /**
+     * getIdentifiersメソッド
+     */
     async getIdentifiers() {
       // DID用の鍵ペアを作成
       const res = await API.get("api", `/identifier`, {});
       return res;
     },
   },
+  /**
+   * 生成されたウォレットアドレス一覧を取得するメソッド
+   */
   async created() {
     const identifier = await this.getIdentifiers();
     console.log("identifier", identifier);

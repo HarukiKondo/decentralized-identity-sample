@@ -7,20 +7,27 @@ import boto3
 import json
 import requests
 
-
+# ディレクトリを作成するメソッド
 def createDirectory(path):
   if not os.path.exists(path):
     os.makedirs(path)
 
+# シークレットマネージャーからシークレット値を取得するメソッド
 def get_secretmanager(secret_name):
 
   url = 'http://localhost:2773'
   header = {'X-Aws-Parameters-Secrets-Token': os.getenv('AWS_SESSION_TOKEN')}
   parameter_encode = requests.utils.quote(secret_name)
   path = f'secretsmanager/get?secretId={parameter_encode}'
+  
+  # リクエストするURLをコンソールに出力
+  full_url = f'{url}/{path}'
+  print(f'Requesting URL: {full_url}')
+  # シークレット値を呼び出す。
   res = requests.get(f'{url}/{path}', headers=header)
 
   if res.status_code == 200:
+      # 秘密鍵を取得する。
       secret = json.loads(res.text)["SecretString"] 
       privateKey = json.loads(secret)['issuer_privatekey']
 
@@ -31,11 +38,10 @@ def get_secretmanager(secret_name):
       #return data['Parameter']['Value']
       return None
   else:
-      print(
-          f"Failed to get SSM parameter store {SSM_ISSUER_PRIVATEKEY_NAME}")
+      print(f'Failed to get SSM parameter store {secret_name}')
       return None
 
-# 署名前の証明書を作成.ファイルに保存する
+# 署名前の証明書を作成.ファイルに保存するメソッド
 def readVerifiableCredentialTemplate(param=None):
   #テンプレート読み込み
   env = Environment(
@@ -64,7 +70,7 @@ def readVerifiableCredentialTemplate(param=None):
 
   return rendered_json
 
-# 生成されたVerifiableCredentialを取得する
+# 生成されたVerifiableCredentialを取得するメソッド
 def getSignedVerifiableCredential(param=None):
   with open('/tmp/blockchain_certificates/{}.json'.format(param['id'])) as f:
     vc = json.load(f)
@@ -72,8 +78,9 @@ def getSignedVerifiableCredential(param=None):
     return vc
 
 
-# cert_issuerを実行して証明書を払い出す。
+# cert_issuerを実行して証明書を払い出すメソッド
 def subprocess_cert_issuer():
+    # 実行するコマンドの設定
     args = [
       'python3',
       '-m',
@@ -81,9 +88,11 @@ def subprocess_cert_issuer():
       '-c',
       'conf.ini'
     ]
+    # コマンド実行
     output = subprocess.run(args, capture_output=True)
-    print(output)
+    print(f'result: subprocess_cert_issuer: {output}')
 
+# Lambda handler 設定
 def lambda_handler(event, context):
   try:
     #print("Received event: " + json.dumps(event, indent=2))
@@ -100,6 +109,7 @@ def lambda_handler(event, context):
 
     # 秘密鍵の取得
     SSM_ISSUER_PRIVATEKEY_NAME = os.getenv('SSM_ISSUER_PRIVATEKEY_NAME')
+    # get_secretmanagerメソッドの呼び出し
     get_secretmanager(secret_name=SSM_ISSUER_PRIVATEKEY_NAME)
 
     ## templateからVCの署名前ファイルを生成
@@ -110,9 +120,11 @@ def lambda_handler(event, context):
         'address': payload['address'],
         'phoneNumber': payload['phoneNumber']
       }
+    # readVerifiableCredentialTemplate メソッド呼び出し
     readVerifiableCredentialTemplate(param)
 
-    # Issuerの秘密鍵で電子署名
+    # Issuerの秘密鍵で電子署名を実行し、Verifiable Credentialを発行する。
+    # subprocess_cert_issuerメソッドの呼び出し
     subprocess_cert_issuer()
 
     # 生成されたVerifiable Credentialを取得

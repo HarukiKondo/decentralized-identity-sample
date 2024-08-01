@@ -100,13 +100,13 @@ docker も使える環境である必要あり。
   
   ```bash
   Outputs:
-  DIDIssuerProfileBucketStack.CloudFrontEndpoint = https://d30mid8q9nodnr.cloudfront.net
-  DIDIssuerProfileBucketStack.ExportsOutputFnGetAttIssuerProfileBucket381855F4ArnA391C134 = arn:aws:s3:::didissuerprofilebucketsta-issuerprofilebucket38185-bwnqluqwchek
-  DIDIssuerProfileBucketStack.ExportsOutputRefDistribution2A3FAFEFD8FF40E1A = E2LBME3QPMVBJ2
-  DIDIssuerProfileBucketStack.ExportsOutputRefIssuerProfileBucket381855F47B4C3D0C = didissuerprofilebucketsta-issuerprofilebucket38185-bwnqluqwchek
+  DIDIssuerProfileBucketStack.CloudFrontEndpoint = https://d1bdw9414tlfat.cloudfront.net
+  DIDIssuerProfileBucketStack.ExportsOutputFnGetAttIssuerProfileBucket381855F4ArnA391C134 = arn:aws:s3:::didissuerprofilebucketsta-issuerprofilebucket38185-vcsyecyp044o
+  DIDIssuerProfileBucketStack.ExportsOutputRefDistribution2A3FAFEFD8FF40E1A = E3CFKJUCHEYZC0
+  DIDIssuerProfileBucketStack.ExportsOutputRefIssuerProfileBucket381855F47B4C3D0C = didissuerprofilebucketsta-issuerprofilebucket38185-vcsyecyp044o
   Stack ARN:
-  arn:aws:cloudformation:us-east-1:966439519756:stack/DIDIssuerProfileBucketStack/e1c56640-4026-11ef-b6ee-0e85c0e81067
-  
+  arn:aws:cloudformation:us-east-1:966439519756:stack/DIDIssuerProfileBucketStack/0756bc70-47f1-11ef-9b78-0ede4e14e609
+
   ✨  Total time: 302.4s
   ```
   
@@ -170,7 +170,7 @@ docker も使える環境である必要あり。
   
   以下のURLでIssuer Profileが表示されるか確認する。
   
-  [https://d30mid8q9nodnr.cloudfront.net/issuer-profile.json](https://d30mid8q9nodnr.cloudfront.net/issuer-profile.json)
+  [https://d1bdw9414tlfat.cloudfront.net/issuer-profile.json](https://d1bdw9414tlfat.cloudfront.net/issuer-profile.json)
   
   
   ![](./images/memo/memo_1.png)
@@ -186,7 +186,7 @@ docker も使える環境である必要あり。
 
   ```bash
   export ISSUER_PRIVATEKEY=0x.....
-  export ISSUER_PROFILE_URL=https://d119t3sedo74h7.cloudfront.net/issuer-profile.json
+  export ISSUER_PROFILE_URL=https://dgh70gw6enhhm.cloudfront.net/issuer-profile.json
   ```
   
 - issuerの設定ファイルを編集する. 
@@ -197,6 +197,8 @@ docker も使える環境である必要あり。
   ```
   
 - `IssuerWebapp`スタックで使用するLambdaレイヤーを作成する。
+
+  すでにLambdaレイヤーを作成している場合はこのステップは飛ばしても良い。
 
   ```bash
   mkdir -p layer1/python
@@ -230,14 +232,14 @@ docker も使える環境である必要あり。
   
   ```bash
   Outputs:
-  IssuerWebapp.DIDViewerEndpointForIssuer = https://d2tnmc3b2hc1ib.cloudfront.net
-  IssuerWebapp.issuerWebAppApiEndpointForIssuerWebApp1780BCDF = https://3w1awxf66a.execute-api.us-east-1.amazonaws.com/prod/
-  IssuerWebapp.issuerWebAppDIDIssuerApiEndpoint83F785EC = https://3w1awxf66a.execute-api.us-east-1.amazonaws.com/prod/
-  IssuerWebapp.issuerWebAppSecretIssuerPrivateKeyArn5569A65C = arn:aws:secretsmanager:us-east-1:966439519756:secret:issuerWebAppSecretIssuerPri-NRAH1NDKtXsN-sCB5Yz
-  IssuerWebapp.issuerWebAppUserPoolId623594C4 = us-east-1_4Y8dN7TRH
-  IssuerWebapp.issuerWebAppUserPoolWEBClientIdForIssuerWebAppC5EF874B = 4ut2harb7tb0j9itqajm5f94np
+  IssuerWebapp.DIDViewerEndpointForIssuer = https://dbddw89xzsd0o.cloudfront.net
+  IssuerWebapp.issuerWebAppApiEndpointForIssuerWebApp1780BCDF = https://gx8n2buupf.execute-api.us-east-1.amazonaws.com/prod/
+  IssuerWebapp.issuerWebAppDIDIssuerApiEndpoint83F785EC = https://gx8n2buupf.execute-api.us-east-1.amazonaws.com/prod/
+  IssuerWebapp.issuerWebAppSecretIssuerPrivateKeyArn5569A65C = arn:aws:secretsmanager:us-east-1:966439519756:secret:issuerWebAppSecretIssuerPri-iU9OsFACrX1U-t9of2R
+  IssuerWebapp.issuerWebAppUserPoolId623594C4 = us-east-1_ChHOrZDZk
+  IssuerWebapp.issuerWebAppUserPoolWEBClientIdForIssuerWebAppC5EF874B = 156enkjje7oa24g5j70l4vavor
   Stack ARN:
-  arn:aws:cloudformation:us-east-1:966439519756:stack/IssuerWebapp/f6d72fc0-4335-11ef-bdb0-0affec3bb6d7
+  arn:aws:cloudformation:us-east-1:966439519756:stack/IssuerWebapp/150726f0-47f3-11ef-a3d7-0e9d1c4e0425
   
   ✨  Total time: 488.83s
   ```
@@ -247,7 +249,7 @@ docker も使える環境である必要あり。
   `pkgs/issuewebapp`配下に`.env.local`ファイルを作成して以下の環境変数を設定する。
   
   ```txt
-  VUE_APP_AWS_REGION=ap-northeast-1
+  VUE_APP_AWS_REGION=us-east-1
   VUE_APP_API_ENDPOINT=
   VUE_APP_USER_POOL_ID=
   VUE_APP_USER_POOL_WEB_CLIENT_ID=
@@ -273,19 +275,16 @@ docker も使える環境である必要あり。
   
   ```bash
   Outputs:
-  HolderWebapp.DIDViewerEndpointForHolder = https://d22827okd70ih7.cloudfront.net
-  HolderWebapp.holderwebappApiEndpointForHolderWebAppB450BBC3 = https://kqyukapsbd.execute-api.us-east-1.amazonaws.com/prod/
-  HolderWebapp.holderwebappDIDHolderApiEndpoint7623539F = https://kqyukapsbd.execute-api.us-east-1.amazonaws.com/prod/
+  HolderWebapp.DIDViewerEndpointForHolder = https://d3ranhpi5cmo5w.cloudfront.net
+  HolderWebapp.holderwebappApiEndpointForHolderWebAppB450BBC3 = https://60gpveydnb.execute-api.us-east-1.amazonaws.com/prod/
+  HolderWebapp.holderwebappDIDHolderApiEndpoint7623539F = https://60gpveydnb.execute-api.us-east-1.amazonaws.com/prod/
   HolderWebapp.holderwebappHolderVcBucketName729D006D = 966439519756-holder-vc-bucket
-  HolderWebapp.holderwebappUserPoolIdForHolderWebAppFAD87864 = us-east-1_F9xhfr6vW
-  HolderWebapp.holderwebappUserPoolWEBClientIdForHolderWebApp84043482 = 8kro5pfc2bmg3de9k347r2vrk
+  HolderWebapp.holderwebappUserPoolIdForHolderWebAppFAD87864 = us-east-1_P0gJI3cSR
+  HolderWebapp.holderwebappUserPoolWEBClientIdForHolderWebApp84043482 = 5fa5evv7lidgr8necke6gldkk6
   Stack ARN:
-  arn:aws:cloudformation:us-east-1:966439519756:stack/HolderWebapp/c2309b90-4343-11ef-b6f5-12cf44e55361
+  arn:aws:cloudformation:us-east-1:966439519756:stack/HolderWebapp/3100aef0-47f6-11ef-8329-0e9a8bf0fdb9
   
-  ✨  Total time: 433.02s
-  
-  
-  Done in 466.25s.
+  ✨  Total time: 399.42s
   ```
 
 - 環境変数を更新する。
@@ -293,7 +292,7 @@ docker も使える環境である必要あり。
   `pkgs/holderwebapp`配下に`.env.local`ファイルを作成して以下の環境変数を設定する。
   
   ```txt
-  VUE_APP_AWS_REGION=ap-northeast-1
+  VUE_APP_AWS_REGION=us-east-1
   VUE_APP_API_ENDPOINT=
   VUE_APP_USER_POOL_ID=
   VUE_APP_USER_POOL_WEB_CLIENT_ID=
@@ -319,18 +318,18 @@ docker も使える環境である必要あり。
   
   ```bash
   Outputs:
-  VerifierWebapp.DIDViewerEndpointForVerifier = https://dxga6v0d5hbby.cloudfront.net
-  VerifierWebapp.verifyWebAppApiEndpointForVerifierWebAppC1DA95B7 = https://u349ixyamc.execute-api.us-east-1.amazonaws.com/prod/
-  VerifierWebapp.verifyWebAppDIDVerifierApiEndpoint89CED720 = https://u349ixyamc.execute-api.us-east-1.amazonaws.com/prod/
-  VerifierWebapp.verifyWebAppUserPoolIdForVerifierWebAppF61B957F = us-east-1_QQhzJFopY
-  VerifierWebapp.verifyWebAppUserPoolWEBClientIdForVerifierWebAppAD150E68 = 3q299aer2uejcpjr5qkfj1ipi6
+  VerifierWebapp.DIDViewerEndpointForVerifier = https://dbidt59sk5xid.cloudfront.net
+  VerifierWebapp.verifyWebAppApiEndpointForVerifierWebAppC1DA95B7 = https://sonuuclzsk.execute-api.us-east-1.amazonaws.com/prod/
+  VerifierWebapp.verifyWebAppDIDVerifierApiEndpoint89CED720 = https://sonuuclzsk.execute-api.us-east-1.amazonaws.com/prod/
+  VerifierWebapp.verifyWebAppUserPoolIdForVerifierWebAppF61B957F = us-east-1_nqMXgvKYB
+  VerifierWebapp.verifyWebAppUserPoolWEBClientIdForVerifierWebAppAD150E68 = 11vpgnm65p55keu0b1bbqrc1m2
   Stack ARN:
-  arn:aws:cloudformation:us-east-1:966439519756:stack/VerifierWebapp/b77ff4d0-4347-11ef-9b1e-0e4c48c4ca71
+  arn:aws:cloudformation:us-east-1:966439519756:stack/VerifierWebapp/d7ac75c0-47f8-11ef-a656-0affe7e724cf
   
-  ✨  Total time: 452.85s
+  ✨  Total time: 414.84s
   
   
-  Done in 482.66s.
+  Done in 407.32s.
   ```
   
 - 環境変数を更新する。
@@ -338,7 +337,7 @@ docker も使える環境である必要あり。
   `pkgs/verifierwebapp`配下に`.env.local`ファイルを作成して以下の環境変数を設定する。
   
   ```txt
-  VUE_APP_AWS_REGION=ap-northeast-1
+  VUE_APP_AWS_REGION=us-east-1
   VUE_APP_API_ENDPOINT=
   VUE_APP_USER_POOL_ID=
   VUE_APP_USER_POOL_WEB_CLIENT_ID=
@@ -358,8 +357,17 @@ docker も使える環境である必要あり。
   
 - デプロイしたフロントエンドにそれぞれアクセスしてVerifiable Credentialを発行・検証できるかテストする。
 
-  - [HolderWebApp](https://d22827okd70ih7.cloudfront.net)
-    
-  - [IssuerWebApp](https://d2tnmc3b2hc1ib.cloudfront.net)
-    
-  - [VerifierWebApp](https://dxga6v0d5hbby.cloudfront.net)
+  - [IssuerWebApp](https://dbddw89xzsd0o.cloudfront.net)
+  
+  - [HolderWebApp](https://d3ranhpi5cmo5w.cloudfront.net)
+  
+  - [VerifierWebApp](https://dbidt59sk5xid.cloudfront.net)
+
+
+- 検証が終わったらデプロイしたスタックを忘れずに削除する。
+
+  以下のコマンドで一括削除
+  
+  ```bash
+  yarn cdk destroy '*'
+  ```

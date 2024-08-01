@@ -54,8 +54,11 @@ export default defineComponent({
     };
   },
   methods: {
-    // VCの一覧をS3から取得する
+    /**
+     * VCの一覧をS3から取得するメソッド
+     */
     async list_vc() {
+      // VC一覧を取得する。
       const res = await API.get("api", `/vc`);
 
       // XMLをパースする
@@ -93,10 +96,13 @@ export default defineComponent({
         });
       }
 
-      console.log(this.vc_list);
+      console.log("vc list:", this.vc_list);
     },
-    // VCを取得する
+    /**
+     * 特定のVCを取得する
+     */
     async get_vc(fileName) {
+      // APIを呼び出し
       const res = await API.get("api", `/vc/${fileName}`);
       console.log(res);
 

@@ -12,6 +12,9 @@ interface CustomProps extends StackProps {
   webAclArn: string;
 }
 
+/**
+ * VerifierWebapp スタック
+ */
 export class VerifierWebapp extends Stack {
   constructor(scope: Construct, id: string, props: CustomProps) {
     super(scope, id, props);

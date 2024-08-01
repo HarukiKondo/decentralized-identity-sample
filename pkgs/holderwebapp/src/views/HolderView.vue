@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <v-col cols="12">
-      <p class="text-h4">Verifiable Credentialの保管とアクセスコントロール</p>
+      <p class="text-h4">
+        Verifiable Credentialの保管とアクセスコントロール
+      </p>
     </v-col>
     <GenerateIdentifier />
     <GetIdentifier />
@@ -23,6 +25,9 @@ import ListVC from "../components/ListVC.vue";
 import Attribute from "../components/AttributeDID.vue";
 import DelegateDID from "../components/DelegateDID.vue";
 
+/**
+ * defineComponent 
+ */
 export default defineComponent({
   name: "HolderView",
 

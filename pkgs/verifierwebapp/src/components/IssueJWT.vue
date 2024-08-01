@@ -67,6 +67,9 @@ export default defineComponent({
       const res = await API.get("api", `/identifier`, {});
       return res;
     },
+    /**
+     * JWTを生成する。
+     */
     async signJWT() {
       try {
         // jwtの作成

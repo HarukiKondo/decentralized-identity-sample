@@ -61,6 +61,9 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * Verifiable Credentialを発行するメソッド
+     */
     async issue_vc() {
       const res = await API.post("api", "/issue", {
         body: {

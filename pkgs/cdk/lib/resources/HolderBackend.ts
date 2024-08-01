@@ -12,6 +12,9 @@ import { apiWafRule } from "../../waf/apiWafRule";
 
 import { DynamodbStack } from "./dynamodb";
 
+/**
+ * HolderBackend スタック 
+ */
 export class HolderBackend extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -60,7 +63,10 @@ export class HolderBackend extends Construct {
       SESSION_TABLE_NAME: dynamodbStack.jwtSessionTable.tableName,
       VC_BUCKET_NAME: HolderVcBucket.bucketName,
     };
-
+    
+    /**
+     * DIDを生成するメソッドの設定
+     */
     const generateIdentifier = new lambdaNodejs.NodejsFunction(
       this,
       "GenerateIdentifier",
@@ -76,7 +82,10 @@ export class HolderBackend extends Construct {
       }
     );
     dynamodbStack.didKeypairTable.grantReadWriteData(generateIdentifier);
-
+    
+    /**
+     * 特定のウォレットアドレスに紐づくDIDを取得するメソッドの設定
+     */
     const getIdentifier = new lambdaNodejs.NodejsFunction(
       this,
       "GetIdentifier",
@@ -92,7 +101,10 @@ export class HolderBackend extends Construct {
       }
     );
     dynamodbStack.didKeypairTable.grantReadData(getIdentifier);
-
+    
+    /**
+     * JWTを生成するメソッドの設定。
+     */
     const issueJWT = new lambdaNodejs.NodejsFunction(this, "IssueJWT", {
       ...defaultFuncProps,
       entry: "./lambda/nodejs/IssueJWT.js",
@@ -104,7 +116,10 @@ export class HolderBackend extends Construct {
       },
     });
     dynamodbStack.didKeypairTable.grantReadData(issueJWT);
-
+    
+    /**
+     * JWTを検証するメソッドの設定
+     */
     const verifyJWT = new lambdaNodejs.NodejsFunction(this, "VerifyJWT", {
       ...defaultFuncProps,
       entry: "./lambda/nodejs/VerifyJWT.js",
@@ -115,7 +130,10 @@ export class HolderBackend extends Construct {
         forceDockerBundling: false,
       },
     });
-
+    
+    /**
+     * DIDドキュメントを取得するメソッドの設定
+     */
     const getDidDocument = new lambdaNodejs.NodejsFunction(
       this,
       "GetDidDocument",

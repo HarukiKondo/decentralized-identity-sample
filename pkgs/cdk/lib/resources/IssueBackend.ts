@@ -16,11 +16,17 @@ import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as wafv2 from "aws-cdk-lib/aws-wafv2";
 import { apiWafRule } from "../../waf/apiWafRule";
 
+/**
+ * IssueBackend スタック
+ */
 export class IssueBackend extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
   }
-
+  
+  /**
+   * createResources メソッド
+   */
   public createResources() {
     // issuerがVCに署名するときに使用する秘密鍵をSecretmanagerに保存
     const issuerPrivatekey = new secretsmanager.Secret(

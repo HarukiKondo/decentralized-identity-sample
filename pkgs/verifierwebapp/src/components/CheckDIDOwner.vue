@@ -38,6 +38,9 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * ウォレットアドレスに紐づくDIDを取得する
+     */
     async lookupOwner() {
       this.owner_info = await API.get("api", `/owner`, {
         queryStringParameters: {

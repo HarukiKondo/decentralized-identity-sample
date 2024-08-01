@@ -5,6 +5,9 @@ import SignIn from "../views/SignIn.vue";
 import HomeView from "../views/HomeView.vue";
 import HolderView from "../views/HolderView.vue";
 
+/**
+ * ルーターの設定
+ */
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/signin",

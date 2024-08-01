@@ -7,6 +7,9 @@ import { Amplify, Auth } from "aws-amplify";
 import "@aws-amplify/ui-vue";
 import { loadFonts } from "./plugins/webfontloader";
 
+/**
+ * Amplify の設定
+ */
 Amplify.configure({
   API: {
     endpoints: [

@@ -1,11 +1,17 @@
 from __future__ import print_function
 from jinja2 import Template, Environment, FileSystemLoader, select_autoescape
+from botocore.exceptions import ClientError
 
 import subprocess
 import os
 import boto3
 import json
 import requests
+
+import sys
+sys.path.append('/opt/python/lib/python3.x/site-packages/')
+
+import cert_issuer
 
 # ディレクトリを作成するメソッド
 def createDirectory(path):
@@ -14,32 +20,38 @@ def createDirectory(path):
 
 # シークレットマネージャーからシークレット値を取得するメソッド
 def get_secretmanager(secret_name):
-
-  url = 'http://localhost:2773'
-  header = {'X-Aws-Parameters-Secrets-Token': os.getenv('AWS_SESSION_TOKEN')}
   parameter_encode = requests.utils.quote(secret_name)
-  path = f'secretsmanager/get?secretId={parameter_encode}'
   
-  # リクエストするURLをコンソールに出力
-  full_url = f'{url}/{path}'
-  print(f'Requesting URL: {full_url}')
-  # シークレット値を呼び出す。
-  res = requests.get(f'{url}/{path}', headers=header)
+  secret_name = parameter_encode
+  region_name = "us-east-1"
 
-  if res.status_code == 200:
-      # 秘密鍵を取得する。
-      secret = json.loads(res.text)["SecretString"] 
-      privateKey = json.loads(secret)['issuer_privatekey']
+  # Create a Secrets Manager client
+  session = boto3.session.Session()
+  client = session.client(
+    service_name='secretsmanager',
+    region_name=region_name
+  )
+  
+  try:
+    get_secret_value_response = client.get_secret_value(
+        SecretId=secret_name
+    )
+  except ClientError as e:
+    print(f'error: {e}')
+    print(f'Failed to get SSM parameter store {secret_name}')
+    raise e
 
-      # 秘密鍵をファイルに保存
-      with open("/tmp/issuer.pk", mode="w") as f:
-        f.write(privateKey)
+  secret = get_secret_value_response['SecretString']
+  print(f'secret: {secret}')
+  privateKey = json.loads(secret)['issuer_privatekey']
 
-      #return data['Parameter']['Value']
-      return None
-  else:
-      print(f'Failed to get SSM parameter store {secret_name}')
-      return None
+  # 秘密鍵をファイルに保存
+  with open("/tmp/issuer.pk", mode="w") as f:
+    f.write(privateKey)
+        
+  return None
+  
+  
 
 # 署名前の証明書を作成.ファイルに保存するメソッド
 def readVerifiableCredentialTemplate(param=None):
@@ -80,6 +92,7 @@ def getSignedVerifiableCredential(param=None):
 
 # cert_issuerを実行して証明書を払い出すメソッド
 def subprocess_cert_issuer():
+    print(sys.path)
     # 実行するコマンドの設定
     args = [
       'python3',

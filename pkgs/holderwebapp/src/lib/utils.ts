@@ -3,6 +3,10 @@ import ethr from "ethr-did-resolver";
 import { Resolver } from "did-resolver";
 import { EthrDID } from "ethr-did";
 
+// registry コントラクトのアドレス
+const REGISTRY_CONTRACT_ADDRESS = "0x03d5003bf0e79C5F5223588F347ebA39AfbC3818"; // sepolia
+// const REGISTRY_CONTRACT_ADDRESS = "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b";  // goerli
+
 /**
  * getDidResolver method 
  */
@@ -12,7 +16,7 @@ export async function getDidResolver(provider: Web3Provider) {
   
   const providerConfig = {
     rpcUrl: provider.connection.url,
-    registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b", // ERC1056のRegistry Contract Address
+    registry: REGISTRY_CONTRACT_ADDRESS, // ERC1056のRegistry Contract Address
     chainId: chainNameOrId,
     provider,
   };
@@ -47,7 +51,7 @@ export async function getEthrDidWithKeypair(
     provider,
     chainNameOrId,
     txSigner: provider.getSigner(accounts[0]),
-    registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b",
+    registry: REGISTRY_CONTRACT_ADDRESS,
   });
   return ethrDid;
 }
@@ -73,7 +77,7 @@ export async function getEthrDidWithoutKeypair(
     provider,
     chainNameOrId,
     txSigner: provider.getSigner(accounts[0]),
-    registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b",
+    registry: REGISTRY_CONTRACT_ADDRESS,
   });
   return ethrDid;
 }

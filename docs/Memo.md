@@ -22,6 +22,8 @@ docker も使える環境である必要あり。
 
 - issuer の鍵ペアを生成
 
+  一度実行したら2回目以降は不要。
+
   ```bash
   yarn utils createWallet
   ```
@@ -29,6 +31,9 @@ docker も使える環境である必要あり。
   実行結果として`pkgs/utils/issuer.json`に鍵ペア情報が出力される。
   
   [作成したウォレットアドレス - 0x6E9efA2Ff9bFa1E07a173020721Ad214AA0e1F28](https://sepolia.etherscan.io/address/0x6E9efA2Ff9bFa1E07a173020721Ad214AA0e1F28)
+  
+  少額のETHを送金しておくこと。  
+  ※ VC発行時に必要になるため
 
 - フロントエンドをビルドする。
 
@@ -86,8 +91,8 @@ docker も使える環境である必要あり。
 - 環境変数の設定を行う。
 
   ```bash
-  export SOURCE_IP_ADDRESS=18.119.6.208/32
-  export ACCESS_FROM_REGION=US
+  export SOURCE_IP_ADDRESS=221.188.21.102/32
+  export ACCESS_FROM_REGION=JP
   ```
   
 - DIDIssuerProfileBucketStack をデプロイする。
@@ -170,11 +175,22 @@ docker も使える環境である必要あり。
   
   以下のURLでIssuer Profileが表示されるか確認する。
   
-  [https://d1bdw9414tlfat.cloudfront.net/issuer-profile.json](https://d1bdw9414tlfat.cloudfront.net/issuer-profile.json)
+  [https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json](https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json)
   
   
   ![](./images/memo/memo_1.png)
   
+  [https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json](https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json)にアクセスすることで失効済みの証明書リストを表示することが可能。１
+  
+  ```json
+  {
+    "@context": "https://w3id.org/openbadges/v2",
+    "id": "https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json",
+    "type": "RevocationList",
+    "issuer": "https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json",
+    "revokedAssertions": []
+  }
+  ```
   
 - Alchemyのエンドポイントを指定する。
 
@@ -357,7 +373,7 @@ docker も使える環境である必要あり。
   
 - デプロイしたフロントエンドにそれぞれアクセスしてVerifiable Credentialを発行・検証できるかテストする。
 
-  - [IssuerWebApp](https://dbddw89xzsd0o.cloudfront.net)
+  - [IssuerWebApp](https://d3h4t7w4d4zat5.cloudfront.net)
   
   - [HolderWebApp](https://d3ranhpi5cmo5w.cloudfront.net)
   
@@ -371,3 +387,7 @@ docker も使える環境である必要あり。
   ```bash
   yarn cdk destroy '*'
   ```
+  
+- 参考情報
+
+  [Sepolia - DIDRegistry Contract](https://sepolia.etherscan.io/address/0x03d5003bf0e79c5f5223588f347eba39afbc3818)

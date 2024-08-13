@@ -37,7 +37,7 @@ publicKey: '0x...'
 ## CDK で使用する Lambda の依存パッケージを事前にインストールする/ Install dependency packages for CDK and Lambda
 
 ```
-$ cd cdk/lambda/nodejs
+$ cd pkgs/cdk/lambda/nodejs
 $ npm install
 ```
 

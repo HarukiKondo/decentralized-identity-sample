@@ -175,12 +175,12 @@ docker も使える環境である必要あり。
   
   以下のURLでIssuer Profileが表示されるか確認する。
   
-  [https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json](https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json)
+  [https://dtg9xtnrexhja.cloudfront.net/issuer-profile.json](https://dtg9xtnrexhja.cloudfront.net/issuer-profile.json)
   
   
   ![](./images/memo/memo_1.png)
   
-  [https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json](https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json)にアクセスすることで失効済みの証明書リストを表示することが可能。１
+  [https://dtg9xtnrexhja.cloudfront.net/revocation-list.json](https://dtg9xtnrexhja.cloudfront.net/revocation-list.json)にアクセスすることで失効済みの証明書リストを表示することが可能。１
   
   ```json
   {
@@ -202,7 +202,7 @@ docker も使える環境である必要あり。
 
   ```bash
   export ISSUER_PRIVATEKEY=0x.....
-  export ISSUER_PROFILE_URL=https://dgh70gw6enhhm.cloudfront.net/issuer-profile.json
+  export ISSUER_PROFILE_URL=https://dtg9xtnrexhja.cloudfront.net/issuer-profile.json
   ```
   
 - issuerの設定ファイルを編集する. 
@@ -217,25 +217,38 @@ docker も使える環境である必要あり。
   すでにLambdaレイヤーを作成している場合はこのステップは飛ばしても良い。
 
   ```bash
-  mkdir -p layer1/python
+  mkdir -p python/lib/python3.9/site-packages
+  ```
+  
+  仮想環境を作成する。
+  
+  ```bash
+  python3 -m venv myenv
+  ```
+  
+  仮想環境をアクティベートする
+  
+  ```bash
+  source myenv/bin/activate
   ```
   
   以下のコマンドをそれぞれ実行してインストール
   
   ```bash
-  pip install -r pkgs/cdk/lambda/python/Issue_vc/layer1.txt -t layer1/python
+  pip install -r pkgs/cdk/lambda/python/Issue_vc/layer1.txt
   ```
   
-  インストールが完了したら、zip化する。
+  インストールが完了したら、コピーしてzip化する。
   
   ```bash
-  cd layer1 && zip -r ../layer1.zip .
+  cp -r myenv/lib64/python3.9/site-packages/* python/lib/python3.9/site-packages/
+  zip -r9 cert-issuer-layer.zip python
   ```
   
   以下のコマンドでLambdaレイヤーとしてアップロードする。
   
   ```bash
-  aws lambda publish-layer-version --layer-name AWS-Parameters-and-Secrets-Lambda-Extension-layer-1 --zip-file fileb://layer1.zip
+  aws lambda publish-layer-version --layer-name AWS-Parameters-and-Secrets-Lambda-Extension-layer-1 --zip-file fileb://cert-issuer-layer.zip
   ```
 
 - `IssuerWebapp`スタックをデプロイする
@@ -388,6 +401,33 @@ docker も使える環境である必要あり。
   yarn cdk destroy '*'
   ```
   
+  仮想環境の無効化
+  
+  ```bash
+  deactivate
+  ```
+  
 - 参考情報
 
   [Sepolia - DIDRegistry Contract](https://sepolia.etherscan.io/address/0x03d5003bf0e79c5f5223588f347eba39afbc3818)
+  
+  
+- サンプル実装
+
+  ```python
+  try:
+    # check_package_in_path('cert_issuer')
+    result = subprocess.run([
+      'pip', 
+      'list',
+      # 'show',
+      #'-f',
+      #'cert-issuer'
+    ], capture_output=True, text=True)
+    cert_issuer_path = result.stdout.strip()
+    print(f'cert-issuer path: {result}')
+    return cert_issuer_path
+  except Exception as e:
+    print(f'Error finding cert_issuer path: {e}')
+    return None
+  ```

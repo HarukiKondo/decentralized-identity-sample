@@ -2,16 +2,25 @@ from __future__ import print_function
 from jinja2 import Template, Environment, FileSystemLoader, select_autoescape
 from botocore.exceptions import ClientError
 
+import sys
+import os
+
 import subprocess
 import os
 import boto3
 import json
 import requests
 
-import sys
-sys.path.append('/opt/python/lib/python3.x/site-packages/')
+def list_files_in_path(path):
+  for root, dirs, files in os.walk(path):
+    for file in files:
+      print(os.path.join(root, file))
 
-import cert_issuer
+def check_package_in_path(package_name):
+  path = '/opt/python/lib/python3.9/site-packages'
+  print(f'Checking for {package_name} in {path}')
+  list_files_in_path(path)
+
 
 # ディレクトリを作成するメソッド
 def createDirectory(path):
@@ -42,7 +51,6 @@ def get_secretmanager(secret_name):
     raise e
 
   secret = get_secret_value_response['SecretString']
-  print(f'secret: {secret}')
   privateKey = json.loads(secret)['issuer_privatekey']
 
   # 秘密鍵をファイルに保存
@@ -92,18 +100,36 @@ def getSignedVerifiableCredential(param=None):
 
 # cert_issuerを実行して証明書を払い出すメソッド
 def subprocess_cert_issuer():
-    print(sys.path)
-    # 実行するコマンドの設定
-    args = [
-      'python3',
-      '-m',
-      'cert_issuer',
-      '-c',
-      'conf.ini'
-    ]
+  
+  # cert_issuerまでのフルパス
+  cert_issuer_path = '/opt/python/lib/python3.9/site-packages/cert_issuer/__main__.py'
+    
+  # 実行するコマンドの設定
+  args = [
+    'python3',
+    cert_issuer_path,
+    #'-m',
+    #'cert-issuer',
+    '-c',
+    'conf.ini'
+  ]
+  
+  print(f'command args: {args}')
+    
+  try:
+    print('=========================== [issue VC Start] ===========================')
     # コマンド実行
-    output = subprocess.run(args, capture_output=True)
+    output = subprocess.run(args, capture_output=True, text=True)
     print(f'result: subprocess_cert_issuer: {output}')
+    
+    # エラーログをチェック
+    if output.returncode != 0:
+      print(f'Error: cert_issuer command failed with return code {output.returncode}')
+      print(f'stderr: {output.stderr}')
+  except subprocess.CalledProcessError as e:
+    print(f'An error occurred while running cert_issuer: {e}')
+  except Exception as e:
+    print(f'An unexpected error occurred: {e}')
 
 # Lambda handler 設定
 def lambda_handler(event, context):

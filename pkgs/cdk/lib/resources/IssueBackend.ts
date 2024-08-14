@@ -96,7 +96,7 @@ export class IssueBackend extends Construct {
         lambda_python.PythonLayerVersion.fromLayerVersionArn(
           this,
           `AWS-Parameters-and-Secrets-Lambda-Extension-layer-1`,
-          "arn:aws:lambda:us-east-1:966439519756:layer:AWS-Parameters-and-Secrets-Lambda-Extension-layer-1:1"
+          "arn:aws:lambda:us-east-1:966439519756:layer:AWS-Parameters-and-Secrets-Lambda-Extension-layer-1:4"
         ),
       ],
       environment: {

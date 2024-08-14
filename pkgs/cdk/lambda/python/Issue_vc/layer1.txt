@@ -1,5 +1,5 @@
 boto3==1.24.83
-cert-issuer==3.3.0
+cert-issuer==3.6.0
 web3<=4.4.1
 coincurve==17.0.0
 ethereum==2.3.1

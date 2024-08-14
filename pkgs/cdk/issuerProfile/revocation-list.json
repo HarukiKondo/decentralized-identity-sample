@@ -1,7 +1,7 @@
 {
     "@context": "https://w3id.org/openbadges/v2",
-    "id": "https://d1c78x5n8l1h4t.cloudfront.net/revocation-list.json",
+    "id": "https://dtg9xtnrexhja.cloudfront.net/revocation-list.json",
     "type": "RevocationList",
-    "issuer": "https://d1c78x5n8l1h4t.cloudfront.net/issuer-profile.json",
+    "issuer": "https://dtg9xtnrexhja.cloudfront.net/issuer-profile.json",
     "revokedAssertions": []
 }

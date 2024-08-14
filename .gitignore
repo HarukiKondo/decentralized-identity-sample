@@ -7,3 +7,5 @@ node_modules
 myenv/**
 layer1.zip
 layer1/python/**
+python/**
+cert-issuer-layer.zip
